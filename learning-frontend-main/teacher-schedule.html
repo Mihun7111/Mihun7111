@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge | 行程與排課</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/scss/all.scss">
+</head>
+<body>
+
+<header class="teacher-mobile-header">
+    <button class="btn btn-sm" id="sidebar-toggle" style="color:#fff;">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+    <span class="logo-text">Merge</span>
+    <div style="width: 36px;"></div>
+</header>
+
+<div class="teacher-overlay" id="sidebar-overlay"></div>
+
+<div class="teacher-layout">
+
+    <aside class="teacher-sidebar" id="teacher-sidebar">
+        <div class="teacher-sidebar-logo">
+            <div class="logo-icon">M</div>
+            <div class="logo-text">Merge<span>老師專用後台</span></div>
+        </div>
+        <nav class="flex-grow-1 py-2">
+            <a href="teacher-dashboard.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">grid_view</span> 控制台
+            </a>
+            <a href="teacher-schedule.html" class="teacher-nav-link active">
+                <span class="material-symbols-outlined">calendar_month</span> 行程與排課
+            </a>
+            <a href="teacher-courses.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">menu_book</span> 課程管理
+            </a>
+            <a href="teacher-reviews.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">assignment</span> 報告與評價
+            </a>
+            <a href="teacher-income.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">account_balance_wallet</span> 收益與績效
+            </a>
+            <a href="teacher-messages.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">chat_bubble</span> 訊息中心
+            </a>
+            <a href="teacher-settings.html" class="teacher-nav-link">
+                <span class="material-symbols-outlined">settings</span> 設定
+            </a>
+        </nav>
+        <div class="teacher-sidebar-footer" id="logout-btn">
+            <img id="sidebar-avatar" src="https://via.placeholder.com/38" alt="頭像" class="teacher-avatar">
+            <div class="teacher-info">
+                <div class="teacher-name" id="sidebar-name">載入中...</div>
+                <div class="teacher-role">老師</div>
+            </div>
+            <span class="material-symbols-outlined logout-icon">logout</span>
+        </div>
+    </aside>
+
+    <main class="teacher-main">
+
+        <h1 class="teacher-page-title">行程與排課</h1>
+        <p class="teacher-page-subtitle">管理你的課程行程、每週開放時段與課程設定</p>
+
+        <!-- 頁籤 -->
+        <div class="schedule-tabs">
+            <button class="schedule-tab-btn active" data-tab="schedule">
+                <span class="material-symbols-outlined">calendar_month</span> 行程
+            </button>
+            <button class="schedule-tab-btn" data-tab="manage">
+                <span class="material-symbols-outlined">tune</span> 課表管理
+            </button>
+            <button class="schedule-tab-btn" data-tab="courses">
+                <span class="material-symbols-outlined">school</span> 課程管理
+            </button>
+        </div>
+
+        <!-- 頁籤一：行程 -->
+        <div class="tab-panel active" id="tab-schedule">
+
+            <div class="teacher-card mb-4">
+                <div class="teacher-card-header">
+                    <h3>週行事曆</h3>
+                </div>
+                <div class="teacher-card-body">
+                    <div class="week-nav">
+                        <button id="prev-week" disabled>← 上週</button>
+                        <span class="week-label" id="week-label">載入中...</span>
+                        <button id="next-week">下週 →</button>
+                    </div>
+                    <div class="week-grid" id="week-grid">
+                        <div class="text-center text-muted py-4" style="grid-column: span 7;">⏳ 載入中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="teacher-card">
+                <div class="teacher-card-header">
+                    <h3>未來預約清單</h3>
+                    <span id="upcoming-count" style="font-size:0.8rem; color:#94a3b8; font-weight:700;">0 筆</span>
+                </div>
+                <div id="upcoming-list">
+                    <div class="text-center text-muted py-4">⏳ 載入中...</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 頁籤二：課表管理 -->
+        <div class="tab-panel" id="tab-manage">
+
+            <div class="teacher-card">
+                <div class="teacher-card-header">
+                    <h3>常態課表設定</h3>
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+
+                        <!-- 圖例（編輯模式才顯示變更中）-->
+                        <div class="legend">
+                            <span>
+                                <span class="legend-dot" style="background:#ECFDF5; border:1px solid #A7F3D0;"></span>開放中
+                            </span>
+                            <span>
+                                <span class="legend-dot" style="background:#f1f5f9; border:1px solid #e2e8f0;"></span>未開放
+                            </span>
+                            <span id="legend-pending" style="display:none;">
+                                <span class="legend-dot" style="background:#FEF9C3; border:1px solid #FDE047;"></span>已變更
+                            </span>
+                        </div>
+
+                        <!-- 按鈕群組 -->
+                        <div id="schedule-btn-group">
+                            <!-- 預設：編輯按鈕 -->
+                            <button class="btn-teacher" id="btn-edit-schedule">
+                                <span class="material-symbols-outlined" style="font-size:16px;">edit_calendar</span>
+                                編輯課表
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="teacher-card-body">
+                    <p class="small mb-3" id="schedule-hint" style="color:#94a3b8;">
+                        點擊「編輯課表」開始設定開放時段。
+                    </p>
+                    <div id="schedule-grid-table" class="schedule-grid-table">
+                        <div class="text-center text-muted py-4">⏳ 載入中...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 頁籤三：課程管理 -->
+        <div class="tab-panel" id="tab-courses">
+
+            <div class="teacher-card mb-4">
+                <div class="teacher-card-header">
+                    <h3>我的課程</h3>
+                    <button class="btn-teacher" id="btn-add-course">
+                        <span class="material-symbols-outlined" style="font-size:16px;">add</span>
+                        新增課程
+                    </button>
+                </div>
+                <div class="teacher-card-body">
+                    <div id="courses-list">
+                        <div class="text-center text-muted py-4">⏳ 載入中...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<!-- 新增/編輯課程 Modal -->
+<div class="modal fade" id="courseModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="courseModalTitle">新增課程</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <input type="hidden" id="courseId">
+                    
+                    <div class="mb-3">
+                        <label for="courseName" class="form-label">課程名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="courseName" required maxlength="100"
+                               placeholder="例如：低年級英語啟蒙班">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="courseSubject" class="form-label">課程類別 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="courseSubject" required>
+                            <option value="">請選擇...</option>
+                            <optgroup label="國小英語">
+                                <option value="11">低年級（一~二年級）</option>
+                                <option value="12">中年級（三~四年級）</option>
+                                <option value="13">高年級（五~六年級）</option>
+                            </optgroup>
+                            <optgroup label="英檢證照">
+                                <option value="21">GEPT（全民英檢）</option>
+                                <option value="22">YLE（劍橋兒童英檢）</option>
+                                <option value="23">國中先修</option>
+                            </optgroup>
+                            <optgroup label="其他">
+                                <option value="31">其他</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="coursePrice" class="form-label">單堂價格 (NT$) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="coursePrice" required min="0" step="10"
+                               placeholder="例如：600">
+                        <small class="text-muted">建議價格範圍：NT$ 400 - 1,200</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="courseDescription" class="form-label">課程描述 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="courseDescription" rows="4" required maxlength="500"
+                                  placeholder="請簡述課程內容、適合對象、教學特色等..."></textarea>
+                        <small class="text-muted">最多 500 字</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">課程狀態</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="courseIsActive" checked>
+                            <label class="form-check-label" for="courseIsActive">
+                                啟用課程（關閉後學生將無法預約）
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="btn-save-course">儲存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./assets/js/navbar.js"></script>
+<script src="./assets/js/teacher-layout.js"></script>
+<script src="./assets/js/teacher-schedule.js"></script>
+</body>
+</html>

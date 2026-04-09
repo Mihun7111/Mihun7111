@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>老師個人頁 - Merge</title>
+    <link rel="stylesheet" href="./assets/scss/all.scss" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <header class="border-bottom py-2 fixed-top navbar-light bg-light">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex">
+            <a href="index.html" class="text-decoration-none">
+              <h1 class="nunito fst-italic display-5 pt-2">Merge</h1>
+            </a>
+          </div>
+          <nav class="ms-auto pt-2">
+            <ul class="list-unstyled d-flex align-items-center mb-0">
+              <li>
+                <a href="explore.html" class="text-decoration-none px-3"
+                  >我要找老師</a
+                >
+              </li>
+              <li id="register-nav-item">
+                <a href="#" class="text-decoration-none px-3">註冊送代幣</a>
+              </li>
+
+              <li id="auth-nav-item" class="position-relative">
+                <a class="fancy" href="login.html">
+                  <span class="top-key"></span>
+                  <span class="text">登入</span>
+                  <span class="bottom-key-1"></span>
+                  <span class="bottom-key-2"></span>
+                  <div
+                    class="d-flex position-absolute translate-middle-y w-100 top-50 z-0"
+                    style="left: 7px"
+                  >
+                    <div
+                      class="w-25 bg-primary rounded-pill border-bottom border-top"
+                      style="height: 45px"
+                    ></div>
+                    <div
+                      class="w-25 bg-primary rounded-pill border-bottom border-top"
+                      style="height: 45px"
+                    ></div>
+                    <div
+                      class="w-25 bg-primary rounded-pill border-bottom border-top"
+                      style="height: 45px"
+                    ></div>
+                    <div
+                      class="w-25 bg-primary rounded-pill border-bottom border-top"
+                      style="height: 45px"
+                    ></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-5 mt-5 bg-gray">
+      <div class="container pt-5">
+        <div class="row row-cols-md-2 g-3 align-items-stretch">
+          <div class="col-12 col-md-7 pb-3">
+            <div class="border rounded-4 bg-light h-100">
+              <div>
+                <p
+                  class="ms-5 mt-4 mb-4 tilt-warp display-5 mb-0 border rounded-circle d-inline-block text-primary"
+                >
+                  About <span id="tutor-name">老師</span>
+                </p>
+                <p
+                  class="ms-5 mb-1 fw-bold text-primary"
+                  id="tutor-headline"
+                ></p>
+                <p class="ms-5 mb-2"><span id="tutor-rating">⭐ —</span></p>
+                <p class="fw-light pb-3 mb-0 border-bottom border-1 px-5">
+                  <span id="tutor-intro">載入中...</span>
+                </p>
+              </div>
+              <h3 class="sansTeg bg-primary border-bottom text-success ps-5">
+                <span id="tutor-name-bg">老師</span>'s background
+              </h3>
+
+              <div class="row row-cols-md-2 pt-4">
+                <div class="col-12 border-end border-1 px-5">
+                  <div class="pt-3">
+                    <h5 class="ps-3">學歷</h5>
+                    <ul class="list-unstyled ps-3" id="education-list">
+                      <li><span class="text-secondary"> ✦ </span> 載入中...</li>
+                    </ul>
+                    <h5 class="ps-3">經歷</h5>
+                    <ul class="list-unstyled ps-3" id="experience-list">
+                      <li><span class="text-secondary"> ✦ </span> 載入中...</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-12 ps-5 ps-md-1">
+                  <div class="pt-3">
+                    <h5 class="ps-3">證照</h5>
+                    <ul class="list-unstyled ps-3" id="certificates-container">
+                      <li>載入中...</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <h3
+                class="sansTeg text-primary mt-5 py-1 ps-5 border-top border-1 pt-5"
+              >
+                <span class="text-secondary"> ✦ </span> Choose Subject
+              </h3>
+              <div class="ps-5 pb-3 d-flex gap-2 flex-wrap" id="course-buttons">
+                <!-- JS 動態產生 -->
+              </div>
+              <h5 class="px-5 pt-2 fw-bold" id="course-name"></h5>
+              <p class="px-5" id="course-desc">課程描述載入中...</p>
+              <div>
+                <h3 class="sansTeg text-primary mt-5 py-1 ps-5 d-inline-block">
+                  <span class="text-secondary"> ✦ </span> Student Review
+                </h3>
+                <small class="fw-light ps-2 d-inline-block">學生評價</small>
+                <div class="px-5" id="reviews-container">
+                  <p style="color: #999">載入中...</p>
+                </div>
+              </div>
+
+              <h3 class="sansTeg text-primary mt-5 py-1 ps-5 d-inline-block">
+                <span class="text-secondary"> ✦ </span>Choose Time
+              </h3>
+              <small class="fw-light ps-2 d-inline-block"
+                >近期可立即預約時間</small
+              >
+              <div
+                class="ps-5 pb-5 d-flex flex-wrap gap-2"
+                id="schedule-container"
+              >
+                <p style="color: #999">載入中...</p>
+              </div>
+            </div>
+          </div>
+          <!-- 右側：大頭貼 → 影片 → 預約按鈕，填滿整欄 -->
+          <div
+            class="col-12 col-md-5 d-flex flex-column"
+            style="min-height: 100%"
+          >
+            <!-- 大頭貼 -->
+            <div
+              id="carouselExampleControls"
+              class="carousel slide"
+              data-bs-ride="carousel"
+            >
+              <div class="carousel-inner" style="height: 600px">
+                <div
+                  class="carousel-item active h-100 bg-line rounded-4"
+                  id="carousel-main"
+                >
+                  <img
+                    id="tutor-avatar"
+                    src="./assets/img/tutor-1.png"
+                    class="d-block w-100 h-100 object-fit-cover rounded-4 border"
+                    alt="老師頭像"
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+              </button>
+            </div>
+
+            <!-- 影片區塊 -->
+            <div id="videos-container" class="mt-2"></div>
+
+            <!-- 預約按鈕 -->
+            <div class="pt-3 pb-4">
+              <button
+                type="button"
+                id="btn-booking"
+                class="btn btn-success border border-2 rounded-2 p-3 w-100"
+              >
+                <p class="mb-0 px-5 nunito">預約上課！</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white border-top py-5 mt-auto">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+            <a
+              href="index.html"
+              class="text-decoration-none d-flex align-items-center justify-content-center justify-content-md-start"
+            >
+              <h3 class="nunito fst-italic mb-0 me-2 text-primary">Merge</h3>
+              <span class="text-muted small">&copy; 2026</span>
+            </a>
+          </div>
+          <div class="col-md-4 mb-3 mb-md-0">
+            <ul class="list-unstyled d-flex justify-content-center mb-0 small">
+              <li>
+                <a href="#" class="text-muted text-decoration-none px-2"
+                  >服務條款</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-muted text-decoration-none px-2"
+                  >隱私政策</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-muted text-decoration-none px-2"
+                  >聯絡我們</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 text-center text-md-end">
+            <a href="#" class="text-muted me-3"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-muted me-3"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a href="#" class="text-muted"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="./assets/js/teacher-profile.js"></script> -->
+    <!-- <script src="./assets/js/navbar.js"></script> -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      var myCarousel = document.querySelector("#carouselExampleControls");
+      var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: 2000,
+        wrap: false,
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/navbar.js"></script>
+    <script src="./assets/js/teacher-profile.js"></script>
+  </body>
+</html>

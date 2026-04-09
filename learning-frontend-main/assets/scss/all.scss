@@ -1,0 +1,71 @@
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Noto+Sans+TC:wght@400;500;700;900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Tilt+Warp&family=Zen+Maru+Gothic:wght@300;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@import "../../node_modules/bootstrap/scss/functions";
+
+// custom
+@import "./configuration/custom-colors";
+@import "./configuration/variables";
+@import "./configuration/variables-dark";
+
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/maps";
+
+@import "./configuration/utilities";
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "background-color": (
+      property: background-color,
+      class: bg,
+      values: $theme-colors
+    ),
+    "color": (
+      property: color,
+      class: text,
+      values: $theme-colors
+    ),
+    "border-color": (
+      property: border-color,
+      class: border,
+      values: $theme-colors
+    ),
+    "border": map-merge(
+      map-get($utilities, "border"),
+      (responsive: true)
+    ),
+    "border-start": map-merge(
+      map-get($utilities, "border-start"),
+      (responsive: true)
+    ),
+  )
+);
+
+@import "../../node_modules/bootstrap/scss/bootstrap"; 
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@import "./page/index";
+
+// 元件樣式
+@import "./components/font-family";
+@import "./components/line";
+@import "./components/transform";
+@import "./components/loop";
+@import "./components/explore";
+@import "./components/teacher-profile";
+@import "./components/booking";
+@import "./components/teacher-layout";
+@import "./components/teacher-schedule";
+@import "./components/teacher-reviews.scss";
+@import "./components/teacher-courses.scss";
+@import "./components/teacher-settings";
+@import "./components/video-room";
+@import "./components/index";
+@import "./components/teacher-chat";
+@import "./components/loginbtn";
+@import "./components/explore";
+@import "./components/admin-dashboard";
+@import "./components/student-layout";
+@import "./components/student-chat";
